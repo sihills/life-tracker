@@ -1,42 +1,36 @@
-# Life Tracker
+# Life Tracker — version 2
 
 A phone-first, local-first Progressive Web App (PWA).
 
-## What it does
+## Version 2 adds
+- Tracker categories: Money, Health, Exercise, Wellbeing, Learning, Hobbies and Other
+- Custom trackers now contribute correctly to category analysis
+- Optional daily targets
+- Choice of one-tap logging or asking for an amount each time
+- Settings tab
+- Configurable currency
+- Monday or Sunday week start
+- System / light / dark appearance
+- Option to group the Today screen by category
+- Four configurable headline cards
+- Existing version-1 local data is migrated automatically because the storage key is unchanged
+
+## Core features
 - Tracks money spent and money saved through alternatives
-- Tracks water, fruit, vegetables, exercise, mood, reading, guitar and any custom activity
-- Lets you add, edit, reorder and hide trackers
-- Stores data locally in the browser on your device
-- Exports a full JSON backup
-- Restores from JSON backup
-- Exports CSV for Excel / Google Sheets
-- Works offline after the first successful load
-- Can be installed to an Android home screen
+- Tracks water, fruit, vegetables, exercise, mood, learning, reading, guitar and custom activities
+- Add, edit, reorder, hide and delete trackers
+- Stores live data locally in the browser on your device
+- Full JSON backup and restore
+- CSV export for Excel / Google Sheets
+- Offline support after first successful load
+- Installable on Android home screen
+
+## Updating the existing GitHub Pages app
+Replace the existing repository files with the files in this package and commit them to the same `main` branch. Do not change the GitHub Pages URL if you want the browser's existing local data to remain associated with the same site.
+
+After GitHub Pages finishes deploying, reload the site. The service worker cache is versioned as `life-tracker-v2` so the new files replace the old offline cache.
 
 ## Important data note
-The app stores its live data in browser localStorage on the device. The web host serves only the app files; your entries are not uploaded by this app.
+Live tracking data is stored in browser localStorage on the device. The web host serves only the app files; entries are not uploaded by this app.
 
-Because local browser data can be lost if you clear site data, uninstall/reset the browser, or lose the device, use "Export full backup" regularly.
-
-## Free deployment options
-
-### Option A: GitHub Pages
-Upload these files to a repository and enable Pages in repository Settings > Pages.
-
-### Option B: Cloudflare Pages
-Create a Pages project and upload/deploy this folder as a static site.
-
-The PWA should be served over HTTPS for installation and service-worker/offline support.
-
-## Android installation
-1. Open the hosted site in Chrome.
-2. Use the app's Install button if shown, or Chrome menu > Add to Home screen / Install app.
-3. Launch Life Tracker from the home-screen icon.
-
-## Files
-- index.html — app structure
-- styles.css — phone-first styling
-- app.js — tracking, local storage, custom trackers, backup/export
-- manifest.webmanifest — install metadata
-- sw.js — offline cache
-- icon-192.png / icon-512.png — app icons
+Because browser data can be lost if site data is cleared or the device is lost, use **Data → Export full backup** regularly.

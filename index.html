@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#1f6f5f">
-  <meta name="description" content="A simple local-first lifestyle tracker for money, health, exercise, mood and hobbies.">
+  <meta name="description" content="A simple local-first lifestyle tracker for money, health, exercise, mood, learning and hobbies.">
   <title>Life Tracker</title>
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="icon" href="icon-192.png">
@@ -22,25 +22,13 @@
       <button id="installBtn" class="secondary small hidden" type="button">Install</button>
     </header>
 
-    <section class="summary-row" aria-label="Today summary">
-      <article class="summary-card">
-        <span>Spent</span><strong id="todaySpent">£0.00</strong>
-      </article>
-      <article class="summary-card">
-        <span>Saved</span><strong id="todaySaved">£0.00</strong>
-      </article>
-      <article class="summary-card">
-        <span>Exercise</span><strong id="todayExercise">0 min</strong>
-      </article>
-      <article class="summary-card">
-        <span>Logged</span><strong id="todayLogged">0</strong>
-      </article>
-    </section>
+    <section id="summaryRow" class="summary-row" aria-label="Today summary"></section>
 
     <nav class="tabs" aria-label="App sections">
       <button class="tab active" type="button" data-view="today">Today</button>
       <button class="tab" type="button" data-view="review">Review</button>
       <button class="tab" type="button" data-view="trackers">Trackers</button>
+      <button class="tab" type="button" data-view="settings">Settings</button>
       <button class="tab" type="button" data-view="data">Data</button>
     </nav>
 
@@ -52,7 +40,7 @@
         </div>
         <input id="entryDate" type="date" aria-label="Date to log">
       </div>
-      <div id="quickGrid" class="tracker-grid"></div>
+      <div id="quickGrid"></div>
       <div class="section-heading compact">
         <div>
           <h2>Today’s log</h2>
@@ -70,6 +58,7 @@
           <p>Patterns from whatever you chose to track.</p>
         </div>
         <select id="periodSelect" aria-label="Review period">
+          <option value="week">This week</option>
           <option value="7">Last 7 days</option>
           <option value="30" selected>Last 30 days</option>
           <option value="all">All time</option>
@@ -80,7 +69,7 @@
         <article class="metric"><span>Spent out</span><strong id="reviewSpent">£0.00</strong></article>
         <article class="metric"><span>Saved</span><strong id="reviewSaved">£0.00</strong></article>
         <article class="metric"><span>Exercise</span><strong id="reviewExercise">0 min</strong></article>
-        <article class="metric"><span>Reading / hobbies</span><strong id="reviewHobbies">0 min</strong></article>
+        <article class="metric"><span>Learning & hobbies</span><strong id="reviewGrowth">0 min</strong></article>
       </div>
 
       <article class="panel">
@@ -113,6 +102,52 @@
       <div id="trackerManager" class="manager-list"></div>
     </section>
 
+    <section id="view-settings" class="view">
+      <div class="section-heading">
+        <div>
+          <h2>Settings</h2>
+          <p>Choose how the app looks and what it shows you.</p>
+        </div>
+      </div>
+
+      <article class="panel settings-grid">
+        <label>Currency
+          <select id="currencySetting">
+            <option value="GBP">GBP — £</option>
+            <option value="EUR">EUR — €</option>
+            <option value="USD">USD — $</option>
+            <option value="AUD">AUD — A$</option>
+            <option value="CAD">CAD — C$</option>
+          </select>
+        </label>
+        <label>Week starts on
+          <select id="weekStartSetting">
+            <option value="monday">Monday</option>
+            <option value="sunday">Sunday</option>
+          </select>
+        </label>
+        <label>Appearance
+          <select id="themeSetting">
+            <option value="system">Use phone setting</option>
+            <option value="light">Light</option>
+            <option value="dark">Dark</option>
+          </select>
+        </label>
+      </article>
+
+      <article class="panel">
+        <h3>Today screen</h3>
+        <label class="switch-row setting-switch"><span><strong>Group trackers by category</strong><small>Keeps a comprehensive tracker tidy.</small></span><input id="groupSetting" type="checkbox"></label>
+        <label class="switch-row setting-switch"><span><strong>Show target progress</strong><small>Targets are optional guidance, not a daily pass/fail.</small></span><input id="targetsSetting" type="checkbox"></label>
+      </article>
+
+      <article class="panel">
+        <h3>Headline cards</h3>
+        <p class="subtle">Choose the four figures shown at the top of Today.</p>
+        <div id="summarySelectors" class="settings-grid summary-selectors"></div>
+      </article>
+    </section>
+
     <section id="view-data" class="view">
       <div class="section-heading">
         <div>
@@ -134,11 +169,12 @@
       <article class="panel">
         <h3>Storage</h3>
         <p id="storageSummary" class="subtle"></p>
+        <p class="subtle">App version 2. Your live tracking data stays on this device unless you export it yourself.</p>
       </article>
 
       <article class="panel danger-zone">
         <h3>Delete</h3>
-        <p class="subtle">This permanently clears entries and resets trackers on this device.</p>
+        <p class="subtle">This permanently clears entries and resets trackers and settings on this device.</p>
         <button id="deleteAllBtn" class="danger" type="button">Delete all local data</button>
       </article>
     </section>
@@ -165,8 +201,21 @@
         <button class="icon-btn" value="cancel" aria-label="Close" type="submit">×</button>
       </div>
       <input id="trackerEditId" type="hidden">
-      <label>Name<input id="trackerName" required maxlength="40" placeholder="e.g. Spanish"></label>
-      <label>Icon<input id="trackerIcon" maxlength="4" placeholder="e.g. 🇪🇸"></label>
+      <div class="form-pair">
+        <label>Name<input id="trackerName" required maxlength="40" placeholder="e.g. Spanish"></label>
+        <label>Icon<input id="trackerIcon" maxlength="4" placeholder="e.g. 🇪🇸"></label>
+      </div>
+      <label>Category
+        <select id="trackerCategory">
+          <option value="money">Money</option>
+          <option value="health">Health</option>
+          <option value="exercise">Exercise</option>
+          <option value="wellbeing">Wellbeing</option>
+          <option value="learning">Learning</option>
+          <option value="hobby">Hobbies</option>
+          <option value="other">Other</option>
+        </select>
+      </label>
       <label>Type
         <select id="trackerType">
           <option value="counter">Counter</option>
@@ -177,12 +226,21 @@
           <option value="boolean">Simple done / not done</option>
         </select>
       </label>
-      <label id="unitWrap">Unit<input id="trackerUnit" maxlength="20" placeholder="e.g. glasses, portions"></label>
-      <label id="defaultWrap">Default amount<input id="trackerDefault" type="number" min="0" step="0.1" value="1"></label>
-      <div id="savingFields" class="hidden">
-        <label>Usual bought-out cost (£)<input id="trackerCompare" type="number" min="0" step="0.01" value="0"></label>
-        <label>Your alternative cost (£)<input id="trackerActual" type="number" min="0" step="0.01" value="0"></label>
+      <label id="interactionWrap">When I tap it
+        <select id="trackerInteraction">
+          <option value="quick">Log the default immediately</option>
+          <option value="prompt">Ask me for the amount each time</option>
+        </select>
+      </label>
+      <div class="form-pair">
+        <label id="unitWrap">Unit<input id="trackerUnit" maxlength="20" placeholder="e.g. glasses, portions"></label>
+        <label id="defaultWrap">Default amount<input id="trackerDefault" type="number" min="0" step="0.1" value="1"></label>
       </div>
+      <div id="savingFields" class="hidden form-pair">
+        <label>Usual bought-out cost (<span class="currency-symbol">£</span>)<input id="trackerCompare" type="number" min="0" step="0.01" value="0"></label>
+        <label>Your alternative cost (<span class="currency-symbol">£</span>)<input id="trackerActual" type="number" min="0" step="0.01" value="0"></label>
+      </div>
+      <label id="targetWrap">Optional daily target<input id="trackerTarget" type="number" min="0" step="0.1" placeholder="Leave blank for no target"></label>
       <label class="switch-row"><span>Show on Today</span><input id="trackerQuick" type="checkbox" checked></label>
       <div class="dialog-actions">
         <button class="secondary" value="cancel" type="submit">Cancel</button>

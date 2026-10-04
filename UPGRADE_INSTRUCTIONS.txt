@@ -1,0 +1,36 @@
+LIFE TRACKER — VERSION 2 UPGRADE
+
+Before updating
+1. Open your existing app at https://sihills.github.io/life-tracker/
+2. Go to Data > Export full backup.
+3. Keep that JSON file somewhere safe. This is precautionary; version 2 is designed to keep existing local data.
+
+Update the GitHub repository
+1. Open your `life-tracker` repository on GitHub.
+2. Replace/upload these files from this package into the repository root:
+   - index.html
+   - styles.css
+   - app.js
+   - sw.js
+   - manifest.webmanifest
+   - icon-192.png
+   - icon-512.png
+   - README.md
+3. Commit the changes to the same `main` branch.
+4. Keep the existing GitHub Pages address unchanged.
+
+After GitHub Pages deploys
+1. Reopen https://sihills.github.io/life-tracker/
+2. Refresh once. If the old version still appears, close the app/browser and reopen it, then refresh again.
+3. You should now see five tabs: Today, Review, Trackers, Settings, Data.
+4. Confirm your previous entries still appear.
+
+Version 2 features
+- Tracker categories
+- Optional daily targets
+- One-tap or ask-each-time logging
+- Settings for currency, week start and appearance
+- Group Today by category on/off
+- Show target progress on/off
+- Choose the four headline cards
+- Custom Exercise, Learning and Hobby trackers now feed the right analysis category
